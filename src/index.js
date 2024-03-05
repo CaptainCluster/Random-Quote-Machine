@@ -22,7 +22,7 @@ function getRandomQuote(quotes) {
 }
 
 /**
- * 
+ * Setting up the HTML page, with the help of JQuery
  * @param {array} quotes 
  */
 function getQuote(quotes) {
@@ -49,7 +49,6 @@ function getQuote(quotes) {
     $(this).animate({ opacity: 1 }, 500);
     $('#author').text(selectedQuote.author);
   });
-
 }
 
 async function main(){
