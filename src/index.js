@@ -27,6 +27,7 @@ function getRandomQuote(quotes) {
  */
 function getQuote(quotes) {
   let selectedQuote = getRandomQuote(quotes);
+  const quoteFormat = '"' + selectedQuote.quote + '"';
 
   //Setting up tweet-button
   const tweetButton = document.getElementById("tweet-quote");
@@ -41,7 +42,7 @@ function getQuote(quotes) {
 
   $('#text').animate({ opacity: 0 }, 500, function () {
     $(this).animate({ opacity: 1 }, 500);
-    $('#text').text(selectedQuote.quote);
+    $('#text').text(quoteFormat);
   });
 
   $('#author').animate({ opacity: 0 }, 500, function () {
