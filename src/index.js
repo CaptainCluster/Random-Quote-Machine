@@ -1,13 +1,22 @@
+//---------------------------------------------------------------//
+// Made by CaptainCluster                                        //
+//                                                               //
+// The jQuery script for the project.                            //
+//                                                               //
+// Ideas utilized from the example project of FreeCodeCamp       //
+// https://random-quote-machine.freecodecamp.rocks/              //
+//---------------------------------------------------------------//
+
+
 /**
  * Fetching the data from the site
- * @returns The quotes (list)
+ * @returns The quotes (json)
  */
-async function getQuotes() {
-  const url = "https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json"
-  const res = await fetch(url)
-  const data =  await res.json();
-  
-  return data.quotes
+function getQuotes() {
+  return $.ajax({
+    dataType: "json",
+    url: 'https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json',
+  });
 }
 
 /**
@@ -22,18 +31,15 @@ function getRandomQuote(quotes) {
 }
 
 /**
- * Setting up the HTML page, with the help of JQuery
+ * Setting up the quote
  * @param {array} quotes 
  */
-function getQuote(quotes) {
+function setUpQuote(quotes) {
   let selectedQuote = getRandomQuote(quotes);
-  const quoteFormat = '"' + selectedQuote.quote + '"';
+  const url = 'https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=' + encodeURIComponent('"' + selectedQuote.quote + '" ' + selectedQuote.author)
 
   //Setting up tweet-button
-  const tweetButton = document.getElementById("tweet-quote");
-  const url = 'https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=' + encodeURIComponent('"' + selectedQuote.quote + '" ' + selectedQuote.author)
-  tweetButton.setAttribute("href", url);
-
+  $("#tweet-quote").attr("href", url);
   //Using JQuery for the dynamic effects, and to assign the quote and the author
   //to the #text and #author elements.
   $("#well").animate({ opacity: 0 }, 500, function() { 
@@ -42,30 +48,25 @@ function getQuote(quotes) {
 
   $('#text').animate({ opacity: 0 }, 500, function () {
     $(this).animate({ opacity: 1 }, 500);
-    $('#text').text(quoteFormat);
+    $('#text').text(selectedQuote.quote);
   });
 
   $('#author').animate({ opacity: 0 }, 500, function () {
     $(this).animate({ opacity: 1 }, 500);
     $('#author').text(selectedQuote.author);
   });
+
 }
 
 async function main(){
-  const newQuoteButton = document.getElementById("new-quote");
-  newQuoteButton.addEventListener("click", () => {
-    getQuote(quotes);
+  $("#new-quote").on("click", function(){
+    setUpQuote(quotes.quotes);
   });
 
   const quotes = await getQuotes(); //Async fetch for the quotes
-  getQuote(quotes)
+  setUpQuote(quotes.quotes)
 }
 
-if (document.readyState !== "loading") {
+$(document).ready(function(){
   main();
-} else {
-  document.addEventListener("DOMContentLoaded", () => {
-    main();
-  });
-}
-
+});
