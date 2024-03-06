@@ -3,7 +3,9 @@
 //                                                               //
 // The jQuery script for the project.                            //
 //                                                               //
-// Ideas utilized from the example project of FreeCodeCamp       //
+// Ideas utilized from the example project of FreeCodeCamp,      //
+// and some relevant code taken.                                 //
+//                                                               //
 // https://random-quote-machine.freecodecamp.rocks/              //
 //---------------------------------------------------------------//
 
